@@ -1,0 +1,186 @@
+﻿@using Microsoft.AspNet.Identity;
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="~/Assets/Admin/images/Logo_NEU.PNG" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Trường Đại học Kinh tế Quốc dân</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Assets/Admin/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/Admin/assets/css/animate.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" />
+    <link href="~/Assets/Admin/libs/toastr/build/toastr.css" rel="stylesheet" />
+    <link href="~/Assets/Admin/assets/css/light-bootstrap-dashboard.css" rel="stylesheet" />
+    <link href="~/Assets/Admin/assets/css/demo.css" rel="stylesheet" />
+    <link href="~/Assets/Admin/libs/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Assets/Admin/assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+    @RenderSection("css", required: false)
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar" data-color="purple" data-image="/Assets/Admin/assets/img/sidebar-5.jpg">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="https://neu.edu.vn" class="simple-text">
+                        Trang quản trị
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li>
+                        <a href="/Admin/KhuNha/Index">
+                            <i class="fa fa-home"></i>
+                            <p>Quản lý khu nhà</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Admin/LoaiPhong/Index">
+                            <i class="fa fa-home"></i>
+                            <p>Quản lý loại phòng</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Admin/Phong/Index">
+                            <i class="fa fa-home"></i>
+                            <p>Quản lý Phòng</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Admin/LanhDao/Index">
+                            <i class="fa fa-user-circle-o"></i>
+                            <p>Quản lý nhân sự</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Admin/QuanLyUser/Index">
+                            <i class="pe-7s-user"></i>
+                            <p>Tài khoản</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Admin/QuanLyRole/Index">
+                            <i class="fa fa-user-secret" aria-hidden="true"></i>
+                            <p>Quyền User</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Admin/LichThietBi/Index">
+                            <i class="fa fa-table"></i>
+                            <p>Mượn trả thiết bị</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Admin/QuanLyDangKy/Index">
+                            <i class="fa fa-list-alt" aria-hidden="true"></i>
+                            <p>Danh sách đăng ký</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Admin/Mail/Index">
+                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                            <p>Định dạng thư trả lời</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Admin/Mail/CaiDatMail">
+                            <i class="fa fa-cogs" aria-hidden="true"></i>
+                            <p>Cài đặt thư trả lời</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <nav class="navbar navbar-default navbar-fixed">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <p>
+                                            @User.Identity.GetUserName()
+                                            <b class="caret"></b>
+                                        </p>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Thông tin cá nhân</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            <li>
+                                @using (Html.BeginForm("LogOut", "Login", new { area = "" }, FormMethod.Post))
+                                {
+                                    <button type="submit" id="submitBtn" style="display:none;"></button>
+                                    <a class="dx" href="javascript:;" onclick="$('#submitBtn').click();">
+                                        <p> Đăng xuất<i class="fa fa-sign-out pull-right"></i></p>
+                                    </a>
+
+                                }
+                            </li>
+                            <li class="separator hidden-lg hidden-md"></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Assets/Admin/assets/js/jquery.3.2.1.min.js"></script>
+    <script src="~/Assets/Admin/assets/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Assets/Admin/assets/js/chartist.min.js"></script>
+    <script src="~/Assets/Admin/assets/js/bootstrap-notify.js"></script>
+    <script src="~/Assets/Admin/libs/toastr/toastr.js"></script>
+    <script src="~/Assets/Admin/assets/js/light-bootstrap-dashboard.js"></script>
+    <script src="~/Assets/Admin/libs/twbs-pagination/jquery.twbsPagination.js"></script>
+    <script src="~/Assets/Admin/libs/mustache/mustache.js"></script>
+    <script src="~/Assets/Admin/libs/bootbox/bootbox.js"></script>
+    <script src="~/Assets/Admin/libs/ckeditor/ckeditor.js"></script>
+    <script src="~/Assets/Admin/assets/js/demo.js"></script>
+
+</body>
+@RenderSection("scripts", required: false)
+</html>
+<script>
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "3000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+</script>
+
+

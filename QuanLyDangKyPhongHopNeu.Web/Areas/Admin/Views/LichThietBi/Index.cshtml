@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section scripts{
+    <script src="~/Assets/Admin/assets/js/controller/lichthietbi.js"></script>
+}
+
+<div class="row" style="padding-top:5px;">
+    <div class="col-md-12">
+        <div class="card" style="padding-top:20px; " >
+            <h2 style="text-align:center;" class="title">Danh sách lịch thiết bị</h2>
+            <div class="content table-responsive table-full-width">
+                <table class="table table-hover table-striped"  >
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên Người đăng ký</th>
+                            <th>Tên thiết bị</th>
+                            <th>Số lượng thuê</th>
+                            <th>Tình trạng</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblData"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<ul id="pagination" class="pagination pull-right"></ul>
+<script id="dataTemplate" type="x-tmpl-mustache">
+    <tr>
+        <td>{{ID}}</td>
+        <td>{{NguoiThue}}</td>
+        <td>{{TenThietBi}}</td>
+        <td>{{SoLuongThue}}</td>
+        <td>{{{TinhTrang}}}</td>
+        <td>
+            <button data-id="{{ID}}" class="btn btn-success btn-sm btnDaTra"><i class="fa fa-check-square" aria-hidden="true"></i> Đã trả</button>
+            <button data-id="{{ID}}" class="btn btn-danger btn-sm btnHong"><i class="fa fa-times-circle" aria-hidden="true"></i> Hỏng</button>
+        </td>
+    </tr>
+</script>
+
+

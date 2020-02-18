@@ -1,0 +1,136 @@
+﻿@model QuanLyDangKyPhongHopNeu.Web.Areas.Admin.Models.EditMail
+@{
+    ViewBag.Title = "EditMail";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section scripts{
+    <script>
+        var editor = new CKEDITOR.replace('txtMailContent', {
+            customConfig: "/Assets/Admin/libs/ckeditor/config.js"
+        });
+
+        $('document').ready(function () {
+            LoadAllMail();
+            $('#btnOpenFile').click(function () {
+                var mailName = $('#ddlListMail').val();
+                if (mailName == '') {
+                    alert('Vui lòng chọn file');
+                    return;
+                }
+                $.ajax({
+                    url: '/Mail/OpenFile',
+                    dataType: 'json',
+                    type: 'Post',
+                    data: {
+                        mailName: mailName
+                    },
+                    success: function (response) {
+                        var oEditor = CKEDITOR.instances.txtMailContent;
+                        oEditor.setData(response.data);
+                    },
+                    error: function (err) {
+                        alert('Có lỗi khi mở file. Vui lòng tải lại trình duyệt');
+                    }
+                })
+            });
+
+            $('#btnSave').click(function () {
+                var mailName = $('#ddlListMail').val();
+                var oEditor = CKEDITOR.instances.txtMailContent;
+                var mailContent = oEditor.getData();
+                if (mailName == '') {
+                    alert('Vui lòng chọn file');
+                    return;
+                }
+                if (mailContent == '' || mailContent == null) {
+                    alert('Không có dữ liệu');
+                    return;
+                }
+                var data = {
+                    mailName: mailName,
+                    mailContent: mailContent
+                }
+                $.ajax({
+                    url: '/Mail/SaveFile',
+                    dataType: 'json',
+                    type: 'Post',
+                    data: {
+                        dataMail: JSON.stringify(data)
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            alert('Lưu lại thành công!');
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        alert('Có lỗi khi lưu file. Vui lòng tải lại trình duyệt');
+                    }
+                })
+            });
+        });
+
+        function LoadAllMail() {
+            $.ajax({
+                url: '/Mail/GetAll',
+                dataType: 'json',
+                type: 'Get',
+                success: function (response) {
+                    var data = response.data;
+                    var html = '';
+                    for (var i = 0; i < data.length; i++) {
+                        html += " <option value='" + data[i] + "'>" + data[i] + "</option >";
+                    }
+                    $('#ddlListMail').append(html);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+    </script>
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-9">
+            <h3 style="text-align:center;">Chỉnh sửa Mail</h3>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-2">Danh sách Mail</label>
+                <div class="col-md-7">
+                    <select id="ddlListMail" class="form-control">
+                        <option value="">Chọn Mail</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="form-control btn-sm btn-success" id="btnOpenFile">Mở file</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Content</label>
+                <div class="col-md-9">
+                    <textarea id="txtMailContent"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-5">
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="form-control btn-sm btn-success" id="btnSave">Lưu</button>
+                </div>
+                <div class="col-md-5">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

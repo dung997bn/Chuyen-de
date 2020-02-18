@@ -1,0 +1,64 @@
+﻿@using QuanLyDangKyPhongHopNeu.Model.Models;
+@model IEnumerable<ApplicationUser>
+@{
+    ViewBag.Title = "Danh sách User";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    .default {
+        color: blue;
+    }
+    .success {
+        color: chartreuse;
+    }
+    .danger {
+        color: red;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <h2>@ViewBag.Title</h2>
+            </div>
+            <div class="col-md-8" style="padding-top:30px;">
+                @Html.ActionLink("Tạo mới User","CreateUser",null, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+       
+        <hr />
+        <table class="table table-borderer">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Họ tên</th>
+                    <th>Địa chỉ</th>
+                    <th>Số điện thoại</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.UserName</td>
+                        <td>@item.Email</td>
+                        <td>@item.HoTen</td>
+                        <td>@item.DiaChi</td>
+                        <td>@item.SDT</td>
+                        <td>
+                            @Html.ActionLink("Sửa thông tin", "Edit", new { Id = item.Id }, new { @class = "default" }) |
+
+                            @Html.ActionLink("Sửa quyền", "EditRole", new { Id = item.Id }, new { @class = "success" }) |
+
+                            @Html.ActionLink("Xóa", "Delete", new { Id = item.Id }, new { @class = "danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

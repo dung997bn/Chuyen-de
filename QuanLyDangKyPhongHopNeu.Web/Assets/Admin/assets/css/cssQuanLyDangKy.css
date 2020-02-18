@@ -1,0 +1,112 @@
+﻿
+
+table {
+    display: table;
+}
+
+.form-control {
+    background-color: #e9e7f1;
+    border-radius: 10px;
+    font-size: 11px;
+    height: 29px;
+}
+
+.label-info {
+    color: black;
+}
+
+h1, h4 {
+    color: black;
+    font-family: sans-serif;
+}
+
+.table > thead > tr > th {
+    text-align: center;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    text-align: center;
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+
+
+table .tableTuan {
+    border-spacing: 0px;
+    border-collapse: separate;
+    border-color: #e7ebee;
+    border-width: 0px;
+    border-style: solid;
+    padding: 0;
+    border-right: 1px solid #e7ebee;
+    border-bottom: 1px solid #e7ebee;
+}
+
+
+.tableTuan th {
+    font-weight: normal;
+    color: #ffffff;
+    background-color: #8100ad;
+    border-left: 1px solid #e7ebee;
+    padding: 0;
+    text-align: center;
+}
+
+.tableTuan td.phongDk {
+    background-color: #8100ad;
+    color: #ffffff;
+    white-space: nowrap;
+    text-align: center;
+    border-left: 1px solid #e7ebee;
+}
+
+.tableTuan td a.blockLink {
+    display: block;
+    padding: 10px;
+    height: 60px;
+}
+
+    .tableTuan td a.blockLink:hover {
+        background-color: #edf3f3;
+    }
+
+.tableTuan td a {
+    display: block;
+    min-height: inherit;
+}
+
+.tableTuan td {
+    padding: 0;
+    border-top: 1px solid #E7EBEE;
+    background-color: #edf3f3;
+    border-left: 1px solid #e7ebee;
+    border-bottom: 0;
+    border-right: 0;
+    height: 60px;
+}
+
+.tableTuanDetail td {
+    padding: 0;
+    border-top: 1px solid #E7EBEE;
+    background-color: #edf3f3;
+    border-left: 1px solid #e7ebee;
+    border-bottom: 0;
+    border-right: 0;
+    height: 20px;
+}
+
+.labelDetail {
+    font-size: 12px;
+}
+
+
+@media only screen and (max-width: 600px) {
+    html {
+        font-size: 9px !important;
+        white-space: normal !important;
+        word-break: break-all !important;
+    }
+}

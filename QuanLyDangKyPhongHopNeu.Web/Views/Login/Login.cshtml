@@ -1,0 +1,100 @@
+﻿@model QuanLyDangKyPhongHopNeu.Web.Models.LoginViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Trường Đại học Kinh tế Quốc dân</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="~/Assets/Login/images/icons/Logo_NEU.PNG" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Assets/Admin/libs/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Assets/Login/fonts/iconic/css/material-design-iconic-font.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Assets/Login/fonts/iconic/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Assets/Login/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Assets/Login/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Assets/Login/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Assets/Login/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Assets/Login/vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="~/Assets/Login/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Assets/Login/css/main.css">
+</head>
+<body>
+    <div class="limiter">
+        <div class="container-login100" style="background-image: url('/Assets/Login/images/bg-01.jpg');">
+            <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-60">
+                @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "login100-form validate-form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <span class="login100-form-title p-b-30">
+                        Đăng nhập quản trị
+                    </span>
+
+                    <div class="wrap-input100 validate-input m-b-23" data-validate="Bạn cần nhập tài khoản">
+                        <span class="label-input100">Tài khoản</span>
+                        @Html.TextBoxFor(model => model.UserName, new { @class= "input100", @placeholder = "Nhập tài khoản", @name = "username" })
+                        <span class="focus-input100" data-symbol="&#xf206;"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Bạn cần nhập mật khẩu">
+                        <span class="label-input100">Mật khẩu</span>
+                        @Html.PasswordFor(model=>model.Password, new { @class = "input100", @placeholder = "Nhập mật khẩu", @name = "pass" })
+                        <span class="focus-input100" data-symbol="&#xf190;"></span>
+                    </div>
+                    <div class="text-right p-t-8 p-b-31">
+                    </div>
+                    <div class="container-login100-form-btn">
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+                            <button type="submit" class="login100-form-btn">
+                                Đăng nhập
+                            </button>
+                        </div>
+                        <br />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="txt1 text-center p-t-54 p-b-20">
+                        <span>
+                            Nếu bạn không phải quản trị viên, vui lòng đăng nhập bằng tài khoản cá nhân
+                        </span>
+                    </div>
+                    <div class="flex-c-m">
+                        <a href="@Url.Action("SignIn365", "Login")" style="text-decoration: none;">
+                           <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="230px" height="50px" viewBox="0 0 3278 522" class="SignInButton">
+                            <style type="text/css">
+                                .fil0:hover {
+                                    fill: #4B4B4B;
+                                }
+                                .fnt0 {
+                                    font-size: 260px;
+                                    font-family: 'Segoe UI Semibold', 'Segoe UI';
+                                    text-decoration: none;
+                                }
+                              </style>
+                            <rect class="fil0" x="2" y="2" width="3174" height="517" fill="black" />
+                            <rect x="150" y="129" width="122" height="122" fill="#F35325" />
+                            <rect x="284" y="129" width="122" height="122" fill="#81BC06" />
+                            <rect x="150" y="263" width="122" height="122" fill="#05A6F0" />
+                            <rect x="284" y="263" width="122" height="122" fill="#FFBA08" />
+                            <text x="470" y="357" fill="white" class="fnt0">Sign in with Microsoft</text>
+                           </svg>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div id="dropDownSelect1"></div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Assets/Login/vendor/animsition/js/animsition.min.js"></script>
+    <script src="~/Assets/Login/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/Assets/Login/vendor/select2/select2.min.js"></script>
+    <script src="~/Assets/Login/vendor/daterangepicker/moment.min.js"></script>
+    <script src="~/Assets/Login/vendor/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Assets/Login/vendor/countdowntime/countdowntime.js"></script>
+    <script src="~/Assets/Login/js/main.js"></script>
+</body>
+</html>

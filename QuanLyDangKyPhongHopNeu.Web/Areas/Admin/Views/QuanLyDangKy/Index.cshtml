@@ -1,0 +1,159 @@
+﻿@model QuanLyDangKyPhongHopNeu.Web.Models.DangKyModels.DangKyTheoTuanModels.DangKyTheoTuanTable
+@using QuanLyDangKyPhongHopNeu.Web.Models.DangKyModels.DangKyTheoTuanModels
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section css{
+    <link href="~/Assets/Admin/assets/css/cssQuanLyDangKy.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="~/Assets/Admin/assets/js/controller/index.js"></script>
+}
+<div class="row">
+    <h2 style="text-align:center;">Quản lý đăng ký</h2>
+
+    <div class="col-md-12" style="padding-top:10px;">
+        <div class="col-md-8 col-sm-12">
+            <div class="input-group">
+                <input type="text" style="width:75%;" id="txtNgay" autocomplete="off" />
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-12">
+            <input type="hidden" id="hidNgayHienTai" value="@Model.Today.Date" />
+            <select id="ddlKhuNha" style="width:85%;" class="form-control center">
+                <option value="0">Chọn khu nhà</option>
+            </select>
+        </div>
+        <div class="col-md-2 col-sm-12">
+            <select id="ddlLoaiPhong" style="width:85%;" class="form-control">
+                <option value="0">Chọn loại phòng</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-12" style="padding-top:30px; text-align:center;">
+        <a href="@Url.Action("Index","QuanLyDangky", new { date=Model.Today.AddDays(-7).ToString("yyyy-MM-dd")})">
+            <i class="fa fa-arrow-left fa-1x pull-left " aria-hidden="true"></i>
+        </a>
+        <a href="@Url.Action("Index","QuanLyDangky", new { date= DateTime.Today.AddDays(-(((int)DateTime.Today.DayOfWeek) + 6) % 7)})">
+            Tuần hiện tại
+        </a>
+        <a href="@Url.Action("Index","QuanLyDangky", new { date=Model.Today.AddDays(7).ToString("yyyy-MM-dd")})">
+            <i class="fa fa-arrow-right fa-1x pull-right " aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="table tableTuan" style="padding-top:10px;">
+    <table class="table"  style="table-layout:fixed !important">
+        <thread>
+            <tr>
+                <th width="9%">Phòng:</th>
+                @foreach (var day in Model.Rows.First().WeekDays)
+                {
+                    <th width="13%">
+                        <label>@day.Weekday (@day.DayOfWeek)</label>
+                    </th>
+                }
+            </tr>
+        </thread>
+        <tbody>
+            @foreach (DangKyTheoTuanRow row in Model.Rows)
+            {
+                <tr>
+                    @foreach (var slot in row.Slots)
+                    {
+                        if (slot.isRoom)
+                        {
+                            <td class="phongDk">@slot.TenPhong</td>
+                        }
+                        else if (slot.IsDay == true && slot.IsDangKy == true)
+                        {
+                            <td>
+                                <table class="table tableTuanDetail">
+                                    @if (slot.NgayHienTai.Date < DateTime.Now.Date)
+                                    {
+                                        foreach (var dangKy in slot.ListDangKyTrongNgay)
+                                        {
+                                            if (dangKy.TinhTrang == "Đã chấp nhận")
+                                            {
+                                                <tr>
+                                                    <td><span class="label label-default">@dangKy.ThoiGianBatDau.ToShortTimeString(): @(dangKy.NoiDungCuocHop.Length >= 11 ? dangKy.NoiDungCuocHop.Substring(0, 11) : dangKy.NoiDungCuocHop)...</span></td>
+                                                </tr>
+                                            }
+                                            else if (dangKy.TinhTrang == "Đang chờ xử lý")
+                                            {
+                                                <tr>
+                                                    <td><span class="label label-default">@dangKy.ThoiGianBatDau.ToShortTimeString(): @(dangKy.NoiDungCuocHop.Length >= 11 ? dangKy.NoiDungCuocHop.Substring(0, 11) : dangKy.NoiDungCuocHop)...</span></td>
+                                                </tr>
+                                            }
+                                            else if (dangKy.TinhTrang == "Đã chuyển")
+                                            {
+                                                <tr>
+                                                    <td><span class="label label-default">@dangKy.ThoiGianBatDau.ToShortTimeString(): @(dangKy.NoiDungCuocHop.Length >= 11 ? dangKy.NoiDungCuocHop.Substring(0, 11) : dangKy.NoiDungCuocHop)...</span></td>
+                                                </tr>
+                                            }
+                                        }
+                                        <tr>
+
+                                            <td>
+                                                <a href="@Url.Action("QuanLyDangKyTheoNgay", "QuanLyDangKy" , new {date=slot.NgayHienTai, idPhong=slot.IDPhong}, null)">
+                                                    <span class="label label-info">Xem</span>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    }
+                                    else
+                                    {
+
+                                        foreach (var dangKy in slot.ListDangKyTrongNgay)
+                                        {
+                                            if (dangKy.TinhTrang == "Đã chấp nhận")
+                                            {
+                                                <tr>
+                                                    <td><span class="label label-danger">@dangKy.ThoiGianBatDau.ToShortTimeString(): @(dangKy.NoiDungCuocHop.Length >= 11 ? dangKy.NoiDungCuocHop.Substring(0, 11) : dangKy.NoiDungCuocHop)...</span></td>
+                                                </tr>
+                                            }
+                                            else if (dangKy.TinhTrang == "Đang chờ xử lý")
+                                            {
+                                                <tr>
+                                                    <td><span class="label label-warning">@dangKy.ThoiGianBatDau.ToShortTimeString(): @(dangKy.NoiDungCuocHop.Length >= 11 ? dangKy.NoiDungCuocHop.Substring(0, 11) : dangKy.NoiDungCuocHop)...</span></td>
+                                                </tr>
+                                            }
+                                            else if (dangKy.TinhTrang == "Đã chuyển")
+                                            {
+                                                <tr>
+                                                    <td><span class="label label-success">@dangKy.ThoiGianBatDau.ToShortTimeString(): @(dangKy.NoiDungCuocHop.Length >= 11 ? dangKy.NoiDungCuocHop.Substring(0, 11) : dangKy.NoiDungCuocHop)...</span></td>
+                                                </tr>
+                                            }
+                                        }
+                                        <tr>
+                                            <td>
+                                                <a href="@Url.Action("QuanLyDangKyTheoNgay", "QuanLyDangKy" , new {date=slot.NgayHienTai, idPhong=slot.IDPhong}, null)">
+                                                    <span class="label label-info"> Xử lý</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <a class="blockLink" href="@Url.Action("ThemMoi","QuanLyDangKy", new {date=slot.NgayHienTai,IdPhong=slot.TenPhong})"></a>
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+

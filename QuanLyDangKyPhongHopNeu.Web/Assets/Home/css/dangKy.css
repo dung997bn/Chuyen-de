@@ -1,0 +1,10 @@
+﻿input, select, textarea {
+    max-width: 100%;
+}
+.form-group {
+    margin-bottom: 10px !important;
+}
+
+div.form-group{
+    max-height:34px !important;
+}

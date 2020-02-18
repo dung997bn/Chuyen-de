@@ -1,0 +1,104 @@
+﻿@model QuanLyDangKyPhongHopNeu.Web.Areas.Admin.Models.CaiDatMail
+@{
+    ViewBag.Title = "CaiDatMail";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using (Html.BeginForm("LuuCaiDat", "Mail", FormMethod.Post))
+{
+    <div class="col-md-12">
+        <div class="col-md-9">
+            <h2 style="text-align:center;">Cài đặt gửi Mail</h2>
+            <hr />
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <h4 style="color:red">@ViewBag.Error</h4>
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.XacNhanDangKy, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.DropDownList("XacNhanDangKy", Model.ListMailXacNhanDangKy as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.XacNhanDangKy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ChapNhan, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.DropDownList("ChapNhan", Model.ListMailChapNhan as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ChapNhan, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ChuyenPhong, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.DropDownList("ChuyenPhong", Model.ListMailChuyenPhong as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ChuyenPhong, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.KhongChapNhan, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.DropDownList("KhongChapNhan", Model.ListMailKhongChapNhan as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.KhongChapNhan, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequestToAdmin, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.DropDownList("RequestToAdmin", Model.ListMailRequestToAdmin as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RequestToAdmin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ToMember, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.DropDownList("ToMember", Model.ListMailToMember as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ToMember, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.FromEmail, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.FromEmail, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FromEmail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="col-md-9" style="text-align:center;">
+                    <input type="submit" value="Lưu cài đặt" class="btn btn-success btn-sm" />
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@using (Html.BeginForm("PhucHoiMacDinh", "Mail",FormMethod.Post))
+{
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="col-md-9" style="text-align:center;">
+                <button type="submit" class="btn btn-info btn-sm">Phục hồi mặc định</button>
+            </div>
+            <div class="col-md-3">
+               
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5 form-row">
+        <i class="fa fa-arrow-left" style="color:#1DC7EA;" aria-hidden="true"> </i>
+        @Html.ActionLink("Trở về", "Index", "Home")
+    </div>
+}

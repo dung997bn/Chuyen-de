@@ -1,0 +1,160 @@
+﻿@model QuanLyDangKyPhongHopNeu.Web.Models.DangKyModels.DangKyTheoTuanModels.DangKyTheoTuanTable
+@using QuanLyDangKyPhongHopNeu.Web.Models.DangKyModels.DangKyTheoTuanModels
+@using System.Globalization
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    CultureInfo myCI = new CultureInfo("en-US");
+    Calendar myCal = myCI.Calendar;
+
+    CalendarWeekRule myCWR = myCI.DateTimeFormat.CalendarWeekRule;
+    DayOfWeek myFirstDOW = myCI.DateTimeFormat.FirstDayOfWeek;
+}
+@section css{
+    <link href="~/Assets/Home/css/cssTuan.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="~/Assets/Home/js/dangKyTheoTuan.js"></script>
+}
+<div class="row">
+    <h1 style="text-align:center;">Đăng ký phòng họp</h1>
+    <h4 style="text-align:center;"> @Model.Today.ToString("MMMM") @Model.Today.Year (Tuần @myCal.GetWeekOfYear(Model.Today, myCWR, myFirstDOW)) </h4>
+    <div class="col-md-12" style="padding-top:10px;">
+        <div class="col-md-8">
+            <div class="input-group dpicker">
+                <input type="text" style="width:75%;" id="txtNgay" autocomplete="off" />
+            </div>
+        </div>
+        <div class="col-md-2 ">
+            <input type="hidden" id="hidNgayHienTai" value="@Model.Today.Date" />
+            <select id="ddlKhuNha" style="width:75%;" class="form-control center">
+                <option value="">--Chọn khu nhà--</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select id="ddlLoaiPhong" style="width:75%;" class="form-control">
+                <option value="">--Chọn loại phòng--</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-12" style="padding-top:30px; text-align:center;">
+        <a href="@Url.Action("DangKyTheoTuan","Dangky", new { date=Model.Today.AddDays(-7).ToString("yyyy-MM-dd")})">
+            <i class="fa fa-arrow-left fa-1x pull-left " aria-hidden="true"></i>
+        </a>
+        <a href="@Url.Action("DangKyTheoTuan","Dangky", new { date= DateTime.Today.AddDays(-(((int)DateTime.Today.DayOfWeek) + 6) % 7)})">
+            Tuần hiện tại
+        </a>
+        <a href="@Url.Action("DangKyTheoTuan","Dangky", new { date=Model.Today.AddDays(7).ToString("yyyy-MM-dd")})">
+            <i class="fa fa-arrow-right fa-1x pull-right " aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="row">
+
+
+    <div class="table tableTuan" style="padding-top:10px;">
+        <table class="table" style="table-layout:fixed !important">
+            <thread>
+                <tr>
+                    <th width="9%" height="40px;">Phòng:</th>
+                    @foreach (var day in Model.Rows.First().WeekDays)
+                    {
+                        <th width="13%" height="40px;">
+                            <label>@day.Weekday (@day.DayOfWeek)</label>
+                        </th>
+                    }
+                </tr>
+            </thread>
+            <tbody>
+                @foreach (DangKyTheoTuanRow row in Model.Rows)
+                {
+                    <tr>
+                        @foreach (var slot in row.Slots)
+                        {
+                            if (slot.isRoom)
+                            {
+                                <td class="phongDk">@slot.TenPhong</td>
+                            }
+                            else if (slot.IsDay == true && slot.IsDangKy == true)
+                            {
+                                <td>
+                                    <table class="table tableTuanDetail" style="margin-bottom:0px !important;">
+                                        @foreach (var dangKy in slot.ListDangKyTrongNgay)
+                                        {
+                                            if (dangKy.NgayDangKy < DateTime.Now.Date)
+                                            {
+                                                if (dangKy.TinhTrang == "Đã chấp nhận")
+                                                {
+                                                    <tr>
+                                                        <td><span class="label label-default">@dangKy.ThoiGianBatDau.ToShortTimeString(): @(dangKy.NoiDungCuocHop.Length >= 15 ? dangKy.NoiDungCuocHop.Substring(0, 15) : dangKy.NoiDungCuocHop)...đã duyệt</span></td>
+
+
+                                                    </tr>
+                                                }
+                                                else if (dangKy.TinhTrang == "Đang chờ xử lý")
+                                                {
+                                                    <tr>
+                                                        <td><span class="label label-default">@dangKy.ThoiGianBatDau.ToShortTimeString(): @(dangKy.NoiDungCuocHop.Length >= 15 ? dangKy.NoiDungCuocHop.Substring(0, 15) : dangKy.NoiDungCuocHop)...chờ duyệt</span></td>
+
+
+                                                    </tr>
+                                                }
+                                                else if (dangKy.TinhTrang == "Đã chuyển")
+                                                {
+                                                    <tr>
+                                                        <td><span class="label label-default">@dangKy.ThoiGianBatDau.ToShortTimeString(): @(dangKy.NoiDungCuocHop.Length >= 15 ? dangKy.NoiDungCuocHop.Substring(0, 15) : dangKy.NoiDungCuocHop)...chuyển phòng</span></td>
+
+
+                                                    </tr>
+                                                }
+                    
+                                            }
+                                            else
+                                            {
+                                                if (dangKy.TinhTrang == "Đã chấp nhận")
+                                                {
+                                                    <tr>
+                                                        <td><span class="label label-danger">@dangKy.ThoiGianBatDau.ToShortTimeString(): @(dangKy.NoiDungCuocHop.Length >= 15 ? dangKy.NoiDungCuocHop.Substring(0, 15) : dangKy.NoiDungCuocHop)...đã duyệt</span></td>
+
+
+                                                    </tr>
+                                                }
+                                                else if (dangKy.TinhTrang == "Đang chờ xử lý")
+                                                {
+                                                    <tr>
+                                                        <td><span class="label label-warning">@dangKy.ThoiGianBatDau.ToShortTimeString(): @(dangKy.NoiDungCuocHop.Length >= 15 ? dangKy.NoiDungCuocHop.Substring(0, 15) : dangKy.NoiDungCuocHop)...chờ duyệt</span></td>
+
+
+                                                    </tr>
+                                                }
+                                                else if (dangKy.TinhTrang == "Đã chuyển")
+                                                {
+                                                    <tr>
+                                                        <td><span class="label label-success">@dangKy.ThoiGianBatDau.ToShortTimeString(): @(dangKy.NoiDungCuocHop.Length >= 15 ? dangKy.NoiDungCuocHop.Substring(0, 15) : dangKy.NoiDungCuocHop)...chuyển phòng</span></td>
+
+
+                                                    </tr>
+                                                }
+                                
+                                            }
+                                        }
+                                    </table>
+                                    <a class="" style="font-size:10px!important;" href="@Url.Action("DangKyTheoNgay","DangKy", new {date=slot.NgayHienTai})">Đăng ký phòng họp</a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <a class="blockLink" href="@Url.Action("DangKyTheoNgay","DangKy", new {date=slot.NgayHienTai})"></a>
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

@@ -1,0 +1,160 @@
+﻿@model QuanLyDangKyPhongHopNeu.Web.Models.DangKyModels.DangKyTheoNgayModels.DangKyTheoNgayTable
+@using QuanLyDangKyPhongHopNeu.Web.Models.DangKyModels.DangKyTheoNgayModels;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link href="~/Assets/Home/css/cssHome.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="~/Assets/Home/js/dangKyTheoNgay.js"></script>
+}
+<div class="row">
+    <h1 style="text-align:center;">Đăng ký phòng họp</h1>
+    <div><h4 style="text-align:center;"> @Model.ToDay.ToLongDateString()</h4></div>
+    <div class="col-md-12" style="padding-top:10px;">
+        <div class="col-md-8">
+            <div class="input-group">
+                <input type="text" style="width:75%;" id="txtNgay" autocomplete="off" />
+            </div>
+
+        </div>
+        <div class="col-md-2 ">
+            <input type="hidden" id="hiddenNgay" value="@Model.ToDay.ToShortDateString()" />
+            <input type="hidden" id="hidNgayHienTai" value="@Model.ToDay.Date" />
+            <select id="ddlKhuNha" style="width:75%;" class="form-control center">
+                <option value="">--Chọn khu nhà--</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select id="ddlLoaiPhong" style="width:75%;" class="form-control">
+                <option value="">--Chọn loại phòng--</option>
+            </select>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-md-12" style="padding-top:30px; text-align:center;">
+        <a href="@Url.Action("DangKyTheoNgay","DangKy",new { date=Model.ToDay.AddDays(-1).ToString("yyyy-MM-dd")})">
+            <i class="fa fa-arrow-left fa-1x pull-left " aria-hidden="true"></i>
+        </a>
+        <a href="@Url.Action("DangKyTheoNgay","DangKy",new { date=DateTime.Today.ToString("yyyy-MM-dd") })">
+            Today
+        </a>
+        <a href="@Url.Action("DangKyTheoNgay","DangKy",new { date=Model.ToDay.AddDays(1).ToString("yyyy-MM-dd") })">
+            <i class="fa fa-arrow-right fa-1x pull-right " aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="table tableDay" style="padding-top:10px;">
+        <table class="table" style="table-layout:fixed !important">
+            <thead>
+                <tr>
+                    <th width="5%;">Phòng:</th>
+                    @foreach (var item in Model.Rows.First().Times)
+                    {
+                        <th width="2.2%">
+                            <label>@item.Gio.ToShortTimeString()</label>
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DangKyTheoNgayRow item in Model.Rows)
+                {
+                    <tr>
+                        @foreach (var slot in item.Slots)
+                        {
+                            if (slot.isRoom)
+                            {
+                                <td class="phongDk">@slot.TenPhong</td>
+                            }
+                            else if (slot.IsDangky)
+                            {
+                                if (slot.NgayHienTai < DateTime.Now.Date)
+                                {
+                                    if (slot.TinhTrang == "Đã chấp nhận")
+                                    {
+                                        <td class="isAccept" style="background-color:#777;" colspan="@slot.ThoiGianDangKy">
+                                            <span style="color:black;">
+                                                <a class="btnInfo" data-id="@slot.IDDangKy" style="cursor:pointer;">@(slot.NoiDungCuocHop.Length > 15 ? slot.NoiDungCuocHop.Substring(0, 15) : slot.NoiDungCuocHop)....</a>
+                                            </span>
+                                        </td>
+                                    }
+                                }
+                                else
+                                {
+                                    if (slot.TinhTrang == "Đã chấp nhận")
+                                    {
+                                        <td class="isAccept" style="background-color:#db3f15;" colspan="@slot.ThoiGianDangKy">
+                                            <span style="color:black;">
+                                                <a class="btnInfo" data-id="@slot.IDDangKy" style="cursor:pointer;">@(slot.NoiDungCuocHop.Length > 15 ? slot.NoiDungCuocHop.Substring(0, 15) : slot.NoiDungCuocHop)....</a>
+                                            </span>
+                                        </td>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <td><a class="blockLink" href="@Url.Action("DangKy","DangKy",new {ngayDangKy=Model.ToDay,batDau=slot.ThoiGianBatDau,tenPhong=slot.TenPhong },null)"></a></td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="col-md-5 form-row">
+            <i class="fa fa-arrow-left" style="color:#1DC7EA;" aria-hidden="true"> </i>
+            @Html.ActionLink("Trở về trang chủ", "DangKyTheoTuan")
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalInfo" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="text-align:center;">Thông tin phòng họp</h4>
+            </div>
+            <div class="modal-body">
+                <div id="tblData"></div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script id="dataTemplate" type="x-tmpl-mustache">
+    <div style="text-align:center; font-size:16px;">
+        {{Phong}} - {{KhuNha}}
+    </div>
+    <hr />
+    <div style="text-align:center; font-size:16px;">
+        <p> {{NoiDungCuocHop}}</p>
+    </div>
+    <hr />
+    <div class="form-inline" style="text-align:center; font-size:16px;">
+        <p>Thành phần: {{ThanhPhan}}</p>
+    </div>
+    <hr />
+    <div class="form-inline" style="text-align:center; font-size:16px;">
+        <p>Chủ trì: {{LanhDao}} - {{ChucVu}}</p>
+    </div>
+    <hr />
+    <div class="form-inline" style="text-align:center; font-size:16px;">
+        <p>Đơn vị công tác: {{DonViCongTac}}</p>
+    </div>
+    <hr />
+    <div class="form-inline" style="text-align:center; font-size:16px;">
+        <p>Ghi chú: {{GhiChu}}</p>
+    </div>
+</script>

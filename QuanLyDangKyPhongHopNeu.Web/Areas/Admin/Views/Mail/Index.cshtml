@@ -1,0 +1,277 @@
+﻿@model QuanLyDangKyPhongHopNeu.Web.Areas.Admin.Models.ThemMoiMail
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section scripts{
+    <script>
+        var editor = new CKEDITOR.replace('txtNoiDung', {
+            customConfig: "~/Assets/Admin/libs/ckeditor/config.js"
+        })
+    </script>
+
+    <script>
+        $('#btnHuongDan').off('click').on('click', function (e) {
+            e.preventDefault();
+            $('#myModal').modal('show');
+        });
+        $('#btnHuongDanCS').off('click').on('click', function (e) {
+            e.preventDefault();
+            $('#myModal').modal('show');
+        });
+    </script>
+    <script>
+        var editor = new CKEDITOR.replace('txtMailContent', {
+            customConfig: "/Assets/Admin/libs/ckeditor/config.js"
+        });
+
+        $('document').ready(function () {
+            LoadAllMail();
+            $('#btnOpenFile').click(function () {
+                var mailName = $('#ddlListMail').val();
+                if (mailName == '') {
+                    alert('Vui lòng chọn file');
+                    return;
+                }
+                $.ajax({
+                    url: '/Mail/OpenFile',
+                    dataType: 'json',
+                    type: 'Post',
+                    data: {
+                        mailName: mailName
+                    },
+                    success: function (response) {
+                        var oEditor = CKEDITOR.instances.txtMailContent;
+                        oEditor.setData(response.data);
+                    },
+                    error: function (err) {
+                        alert('Có lỗi khi mở file. Vui lòng tải lại trình duyệt');
+                    }
+                })
+            });
+
+            $('#btnSave').click(function () {
+                var mailName = $('#ddlListMail').val();
+                var oEditor = CKEDITOR.instances.txtMailContent;
+                var mailContent = oEditor.getData();
+                if (mailName == '') {
+                    alert('Vui lòng chọn file');
+                    return;
+                }
+                if (mailContent == '' || mailContent == null) {
+                    alert('Không có dữ liệu');
+                    return;
+                }
+                var data = {
+                    mailName: mailName,
+                    mailContent: mailContent
+                }
+                $.ajax({
+                    url: '/Mail/SaveFile',
+                    dataType: 'json',
+                    type: 'Post',
+                    data: {
+                        dataMail: JSON.stringify(data)
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            alert('Lưu lại thành công!');
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        alert('Có lỗi khi lưu file. Vui lòng tải lại trình duyệt');
+                    }
+                })
+            });
+        });
+
+        function LoadAllMail() {
+            $.ajax({
+                url: '/Mail/GetAll',
+                dataType: 'json',
+                type: 'Get',
+                success: function (response) {
+                    var data = response.data;
+                    var html = '';
+                    for (var i = 0; i < data.length; i++) {
+                        html += " <option value='" + data[i] + "'>" + data[i] + "</option >";
+                    }
+                    $('#ddlListMail').append(html);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+    </script>
+}
+@section css{
+    <style>
+        p {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .modelHD{
+            width:800px !important;
+        }
+    </style>
+}
+
+<div class="container">
+    <div class="row" style="padding-top:4px !important;">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <ul class="nav nav-tabs">
+                <li class="nav-item" style="padding-left:32px !important;">
+                    <a class="nav-link active" data-toggle="tab" href="#home"><i class="fa fa-plus-circle"></i>    Thêm mới Mail</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#menu1"><i class="fa fa-pencil-square"></i>    Chỉnh sửa Mail</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="home" class="container tab-pane active">
+            @using (Html.BeginForm("ThemMoiMail", "Mail", FormMethod.Post))
+            {
+                <h2 style="text-align:center;">Thêm mới Mail</h2>
+                <hr />
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                <h4 style="color:red">@ViewBag.Error</h4>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.NoiDungMai, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.NoiDungMai, new { htmlAttributes = new { @class = "form-control" }, @id = "txtNoiDung" })
+                                @Html.ValidationMessageFor(model => model.NoiDungMai, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.TenMail, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TenMail, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TenMail, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="col-md-4 ">
+                            </div>
+                            <div class="col-md-2 ">
+                                <button type="submit" class="form-control btn-sm btn-success">Tạo mới</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button id="btnHuongDan" type="button" class="form-control btn-sm btn-info">Hướng dẫn sử dụng</button>
+                            </div>
+                            <div class="col-md-4 ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div id="menu1" class="container tab-pane fade">
+            <h2 style="text-align:center;">Chỉnh sửa Mail</h2>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Danh sách Mail</label>
+                            <div class="col-md-8">
+                                <select id="ddlListMail" class="form-control">
+                                    <option value="">Chọn Mail</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="form-control btn-sm btn-success" id="btnOpenFile">Mở file</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Content</label>
+                            <div class="col-md-10">
+                                <textarea id="txtMailContent"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-5">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="form-control btn-sm btn-success" id="btnSave">Lưu</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button id="btnHuongDanCS" type="button" class="form-control btn-sm btn-info">Hướng dẫn sử dụng</button>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-5 form-row">
+    <i class="fa fa-arrow-left" style="color:#1DC7EA;" aria-hidden="true"> </i>
+    @Html.ActionLink("Trở về", "Index", "Home")
+</div>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content modelHD">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Hướng dẫn sử dụng</h4>
+            </div>
+            <div class="modal-body">
+                <p>Bạn vui lòng soạn thảo Email theo đúng định dạng word.</p>
+                <p>Nếu bạn muốn hiển thị thông tin từ lịch đăng ký. Vui lòng làm theo ví dụ dưới đây:</p>
+                <p>Xin chào: {{Name}} </p>
+                <p>Trong ví dụ trên, giả sử lịch đăng ký có tên người đăng ký là Nguyen Xuan Dung thì trong gmail sẽ hiển thị:</p>
+                <p>Xin chào: Nguyen Xuan Dung</p>
+                <hr />
+                <p>Các từ khóa được hỗ trợ:</p>
+                <p>+<strong>{{Name}}</strong> : hiển thị tên của người đăng ký</p>
+                <p>+<strong>{{Email}}</strong> : hiển thị Email của người đăng ký</p>
+                <p>+<strong>{{Room}}</strong> : hiển thị phòng đăng ký</p>
+                <p>+<strong>{{ThoiGian}}</strong> : hiển thị khoảng thời gian đăng ký</p>
+                <p>+<strong>{{NgayDangKy}}</strong> : hiển thị ngày đăng ký</p>
+                <p>+<strong>{{NoiDungCuocHop}}</strong> : hiển thị nội dung cuộc họp</p>
+                <p>+<strong>{{SoDienThoai}}</strong> : hiển thị số điện thoại của người đăng ký</p>
+                <p>+<strong>{{TieuDe}}</strong> : hiển thị tiêu đề đăng ký</p>
+                <p>+<strong>{{TinhTrang}}</strong> : hiển thị tình trạng đăng ký</p>
+                <hr />
+                <p>+<strong>{{PhongDangKy}}</strong> : hiển thị phòng đã đăng ký(chỉ hỗ trợ mail chuyển phòng)</p>
+                <p>+<strong>{{PhongChuyen}}</strong> : hiển thị phòng đã chuyển(chỉ hỗ trợ mail chuyển phòng)</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+

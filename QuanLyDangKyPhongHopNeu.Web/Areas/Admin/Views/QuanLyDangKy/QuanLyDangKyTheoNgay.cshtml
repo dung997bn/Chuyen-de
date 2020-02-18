@@ -1,0 +1,116 @@
+﻿@model QuanLyDangKyPhongHopNeu.Web.Areas.Admin.Models.HienThiLichDangKy
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var stt = 1;
+    DateTime date = DateTime.Parse(TempData["NgayDangKy"].ToString());
+}
+<div class="row" style="padding-top:5px;">
+    <div class="col-md-12">
+        <div class="card" style="padding-top:20px;">
+            <input type="hidden" value="@date" id="txtDate" />
+            <h2 style="text-align:center;" class="title">Danh sách đăng ký</h2>
+            <h4 style="text-align:center;" class="title">@date.ToShortDateString()</h4>
+            <div class="content table-responsive table-full-width" style="text-align:center;">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>              
+                            <th>Tên phòng</th>
+                            <th>Thời gian đăng ký</th>
+                            <th>Lãnh đạo</th>
+                            <th>Tên người đăng ký</th>
+                            <th>Email</th>     
+                            <th>Tình trạng</th>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.LichDangKy)
+                        {
+                        <tr>
+                            @foreach (var jtem in Model.Phong)
+                            {
+                                if (jtem.ID == item.IDPhong)
+                                {
+                                    <td>
+                                        @jtem.TenPhong.ToString()
+                                    </td>
+                                }
+                            }
+                            <td>@item.ThoiGianBatDau.ToShortTimeString() - @item.ThoiGianKetThuc.ToShortTimeString()</td>
+                            @foreach (var ktem in Model.LanhDaos)
+                            {
+                                if (ktem.ID == item.IdLanhDao)
+                                {
+                                    <td>
+                                        @ktem.HoTen-@ktem.ChucVu
+                                    </td>
+                                }
+                            }
+                            <td>@item.TenNguoiDangKy</td>
+                            <td>@item.Email</td>
+                            <td>
+                                @if (item.TinhTrang == "Đã chấp nhận")
+                                {
+                                    <span class="label label-danger">Đã chấp nhận</span>
+                                }
+                                else if (item.TinhTrang == "Đang chờ xử lý")
+                                {
+                                    <span class="label label-warning">Đang chờ xử lý</span>
+                                }
+                                else if (item.TinhTrang == "Đã chuyển")
+                                {
+                                    <span class="label label-success">Đã chuyển</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.NgayDangKy.Date < DateTime.Now.Date)
+                                {
+                                    @*<button data-id="@item.ID" type="button" onclick="location.href='@Url.Action("DuyetLichDangKy", "QuanLyDangKy",new { Id=item.ID })'" class="btn btn-success btn-sm btnChapNhan"><i class="fa fa-check-square" aria-hidden="true"></i>Duyệt</button>
+                                    <button data-id="@item.ID" type="button" onclick="location.href='@Url.Action("ChuyenLich", "QuanLyDangKy",new { IdPhong=item.IDPhong, Id=item.ID })'" class="btn btn-info btn-sm btnChuyen"><i class="fa fa-home"></i>Sửa</button>*@
+                                    <button data-id="@item.ID" type="button" onclick="location.href='@Url.Action("XoaLich", "QuanLyDangKy",new { Id=item.ID })'" class="btn btn-danger btn-sm btnXoa"><i class="fa fa-times-circle" aria-hidden="true"></i>Xóa dữ liệu đăng ký</button>
+                                }
+                                else
+                                {
+                                    <button data-id="@item.ID" type="button" onclick="location.href='@Url.Action("DuyetLichDangKy", "QuanLyDangKy",new { Id=item.ID })'" class="btn btn-success btn-sm btnChapNhan"><i class="fa fa-check-square" aria-hidden="true"></i>Duyệt</button>
+                                    <button data-id="@item.ID" type="button" onclick="location.href='@Url.Action("ChuyenLich", "QuanLyDangKy",new { IdPhong=item.IDPhong, Id=item.ID })'" class="btn btn-info btn-sm btnChuyen"><i class="fa fa-home"></i>Sửa</button>
+                                    <button data-id="@item.ID" type="button" onclick="location.href='@Url.Action("XoaLich", "QuanLyDangKy",new { Id=item.ID })'" class="btn btn-danger btn-sm btnXoa"><i class="fa fa-times-circle" aria-hidden="true"></i>Xóa</button>
+                                }
+
+                            </td>
+                        </tr>
+                            stt++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-5 form-row" style="padding-top:9px;">
+                <i class="fa fa-arrow-left" style="color:#1DC7EA;" aria-hidden="true"> </i>
+                @Html.ActionLink("Trở về trang chính", "Index")
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalEdit" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Chọn phòng bạn muốn chuyển sang?</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <input type="hidden" id="hidID" />
+                    <div class="form-group">
+                        <label for="ddlPhong">Phòng:</label>
+                        <select id="ddlPhong" class="form-control"></select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btnChuyenLich">Lưu thay đổi</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

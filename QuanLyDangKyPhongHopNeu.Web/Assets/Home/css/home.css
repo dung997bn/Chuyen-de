@@ -1,0 +1,59 @@
+.frmDNQT {
+    /*padding-left: 80px !important;*/
+    text-align: center;
+}
+
+    .frmDNQT input[type="text"] {
+        border-radius: 10px !important;
+        font-size: 11px;
+        height: 25px !important;
+        width: 95% !important;
+    }
+
+    .frmDNQT input[type="password"] {
+        border-radius: 10px !important;
+        font-size: 11px;
+        height: 25px !important;
+        width: 95% !important;
+    }
+
+    .frmDNQT button {
+        border-radius: 10px !important;
+        font-size: 11px;
+        height: 25px !important;
+        position: center !important;
+        background-color: #5cb85c !important;
+    }
+
+.navbar-inverse {
+    background-color: #385edf;
+}
+
+    .navbar-inverse .navbar-nav > li > a {
+        color: white;
+    }
+
+a {
+    color: black;
+}
+
+.navbar {
+    min-height: 110px !important;
+}
+
+.logo {
+    width: 85px;
+    height: 85px;
+}
+
+.truong {
+    font-size: 21px;
+    color: white;
+    margin-left: 5px;
+}
+
+.app {
+    font-size: 19px;
+    color: white;
+    margin-left: 45px;
+}

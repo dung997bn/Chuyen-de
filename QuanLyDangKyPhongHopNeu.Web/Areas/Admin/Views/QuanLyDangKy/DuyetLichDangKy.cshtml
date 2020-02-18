@@ -1,0 +1,15 @@
+﻿@model QuanLyDangKyPhongHopNeu.Model.Models.LichDangKy
+@{
+    ViewBag.Title = "DuyetLichDangKy";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2><span>Duyệt đơn thành công!! Đã gửi thông tin đến người đăng ký</span></h2>
+<div class="col-md-5 form-row">
+    <i class="fa fa-arrow-left"  style="color:#1DC7EA;" aria-hidden="true"> </i>
+    @Html.ActionLink("Trở về trang quản lý", "QuanLyDangKyTheoNgay", new { date = Model.NgayDangKy, idPhong = Model.IDPhong })
+</div>
+<script>
+
+</script>
+
