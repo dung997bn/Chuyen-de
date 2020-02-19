@@ -18,7 +18,7 @@
 @if (!Request.IsAuthenticated)
 {
     <div class="row" style="padding-top:15px;">
-        <div class="col-md-12 " style="padding-top:30px; text-align:center;">
+        <div class="col-md-12 " style="padding-top:30px; text-align:center; font-size:16px;">
             <a href="@Url.Action("Index","Home", new { date=Model.Today.AddDays(-7).ToString("yyyy-MM-dd")})">
                 <i class="fa fa-arrow-left fa-1x pull-left " aria-hidden="true"></i>
             </a>
@@ -31,19 +31,19 @@
         </div>
         <div class="clearfix"></div>
 
-        <div class="table tableTuan" style="padding-top:10px;">
-            <table class="table" style="table-layout:fixed !important">
-                <thread>
+        <div class="table" style="padding-top:10px;">
+            <table class="table weekly" style="table-layout:fixed !important">
+                <thead>
                     <tr>
-                        <th height="40px;">Phòng:</th>
+                        <th>Phòng:</th>
                         @foreach (var day in Model.Rows.First().WeekDays)
                         {
-                            <th height="40px;">
+                            <th>
                                 <label>@day.Weekday (@day.DayOfWeek)</label>
                             </th>
                         }
                     </tr>
-                </thread>
+                </thead>
                 <tbody>
                     @foreach (DangKyTheoTuanRow row in Model.Rows)
                     {
@@ -52,12 +52,12 @@
                             {
                                 if (slot.isRoom)
                                 {
-                                    <td class="phongDk">@slot.TenPhong</td>
+                                    <td class="roomDK">@slot.TenPhong</td>
                                 }
                                 else if (slot.IsDay == true && slot.IsDangKy == true)
                                 {
                                     <td>
-                                        <table class="table tableTuanDetail">
+                                        <table class="table">
                                             @foreach (var dangKy in slot.ListDangKyTrongNgay)
                                             {
                                                 if (dangKy.NgayDangKy < DateTime.Now.Date)

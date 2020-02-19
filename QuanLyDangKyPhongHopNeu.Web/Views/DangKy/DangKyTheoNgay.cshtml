@@ -3,37 +3,33 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section css{
-    <link href="~/Assets/Home/css/cssHome.css" rel="stylesheet" />
-}
 @section scripts{
     <script src="~/Assets/Home/js/dangKyTheoNgay.js"></script>
 }
 <div class="row">
     <h1 style="text-align:center;">Đăng ký phòng họp</h1>
     <div><h4 style="text-align:center;"> @Model.ToDay.ToLongDateString()</h4></div>
-    <div class="col-md-12" style="padding-top:10px;">
-        <div class="col-md-8">
+    <div class="col-md-12 col-sm-12" style="padding-top:10px;">
+        <div class="col-md-8 col-sm-12">
             <div class="input-group">
                 <input type="text" style="width:75%;" id="txtNgay" autocomplete="off" />
             </div>
-
         </div>
-        <div class="col-md-2 ">
+        <div class="col-md-2 col-sm-12">
             <input type="hidden" id="hiddenNgay" value="@Model.ToDay.ToShortDateString()" />
             <input type="hidden" id="hidNgayHienTai" value="@Model.ToDay.Date" />
-            <select id="ddlKhuNha" style="width:75%;" class="form-control center">
+            <select id="ddlKhuNha" style="width:85%;" class="form-control center">
                 <option value="">--Chọn khu nhà--</option>
             </select>
         </div>
-        <div class="col-md-2">
-            <select id="ddlLoaiPhong" style="width:75%;" class="form-control">
+        <div class="col-md-2 col-sm-12">
+            <select id="ddlLoaiPhong" style="width:85%;" class="form-control">
                 <option value="">--Chọn loại phòng--</option>
             </select>
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="col-md-12" style="padding-top:30px; text-align:center;">
+    <div class="col-md-12 col-sm-12" style="padding-top:30px; text-align:center;font-size:16px;">
         <a href="@Url.Action("DangKyTheoNgay","DangKy",new { date=Model.ToDay.AddDays(-1).ToString("yyyy-MM-dd")})">
             <i class="fa fa-arrow-left fa-1x pull-left " aria-hidden="true"></i>
         </a>
