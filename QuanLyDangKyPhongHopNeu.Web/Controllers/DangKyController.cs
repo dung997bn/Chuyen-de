@@ -129,7 +129,7 @@ namespace QuanLyDangKyPhongHopNeu.Web.Controllers
                         contentToUser = contentToUser.Replace("{{TinhTrang}}", lichDangKy.TinhTrang);
                         //Extra
                         contentToUser = contentToUser.Replace("{{NoiDungCuocHop}}", lichDangKy.NoiDungCuocHop);
-                        contentToUser = contentToUser.Replace("{{TieuDe}}", lichDangKy.TieuDe);
+                        contentToUser = contentToUser.Replace("{{GhiChu}}", lichDangKy.TieuDe);
                         contentToUser = contentToUser.Replace("{{ThanhPhan}}", lichDangKy.ThanhPhan);
                         contentToUser = contentToUser.Replace("{{TinhTrang}}", lichDangKy.TinhTrang);
                         contentToUser = contentToUser.Replace("{{DonViCongTac}}", model.DonViCongTac);
