@@ -16,18 +16,18 @@
     <h1 style="text-align:center;">Đăng ký phòng họp</h1>
     <h4 style="text-align:center;"> @Model.Today.ToString("MMMM") @Model.Today.Year (Tuần @myCal.GetWeekOfYear(Model.Today, myCWR, myFirstDOW)) </h4>
     <div class="col-md-12 col-sm-12" style="padding-top:10px;">
-        <div class="col-md-8 col-sm-12">
+        <div class="col-md-8 col-sm-12 inputSelect">
             <div class="input-group dpicker">
                 <input type="text" style="width:75%;" id="txtNgay" autocomplete="off" />
             </div>
         </div>
-        <div class="col-md-2 col-sm-12">
+        <div class="col-md-2 col-sm-12 inputSelect">
             <input type="hidden" id="hidNgayHienTai" value="@Model.Today.Date" />
             <select id="ddlKhuNha" style="width:85%;" class="form-control center">
                 <option value="">--Chọn khu nhà--</option>
             </select>
         </div>
-        <div class="col-md-2 col-sm-12">
+        <div class="col-md-2 col-sm-12 inputSelect">
             <select id="ddlLoaiPhong" style="width:85%;" class="form-control">
                 <option value="">--Chọn loại phòng--</option>
             </select>

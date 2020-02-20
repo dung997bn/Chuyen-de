@@ -10,19 +10,19 @@
     <h1 style="text-align:center;">Đăng ký phòng họp</h1>
     <div><h4 style="text-align:center;"> @Model.ToDay.ToLongDateString()</h4></div>
     <div class="col-md-12 col-sm-12" style="padding-top:10px;">
-        <div class="col-md-8 col-sm-12">
+        <div class="col-md-8 col-sm-12 inputSelect">
             <div class="input-group">
                 <input type="text" style="width:75%;" id="txtNgay" autocomplete="off" />
             </div>
         </div>
-        <div class="col-md-2 col-sm-12">
+        <div class="col-md-2 col-sm-12 inputSelect">
             <input type="hidden" id="hiddenNgay" value="@Model.ToDay.ToShortDateString()" />
             <input type="hidden" id="hidNgayHienTai" value="@Model.ToDay.Date" />
             <select id="ddlKhuNha" style="width:85%;" class="form-control center">
                 <option value="">--Chọn khu nhà--</option>
             </select>
         </div>
-        <div class="col-md-2 col-sm-12">
+        <div class="col-md-2 col-sm-12 inputSelect">
             <select id="ddlLoaiPhong" style="width:85%;" class="form-control">
                 <option value="">--Chọn loại phòng--</option>
             </select>
@@ -43,8 +43,8 @@
 </div>
 <div class="clearfix"></div>
 <div class="row">
-    <div class="table tableDay" style="padding-top:10px;">
-        <table class="table" style="table-layout:fixed !important">
+    <div class="table" style="padding-top:10px;">
+        <table class="table daily" style="table-layout:fixed !important">
             <thead>
                 <tr>
                     <th width="5%;">Phòng:</th>
@@ -64,7 +64,7 @@
                         {
                             if (slot.isRoom)
                             {
-                                <td class="phongDk">@slot.TenPhong</td>
+                                <td class="roomDkDaily">@slot.TenPhong</td>
                             }
                             else if (slot.IsDangky)
                             {
@@ -72,9 +72,9 @@
                                 {
                                     if (slot.TinhTrang == "Đã chấp nhận")
                                     {
-                                        <td class="isAccept" style="background-color:#777;" colspan="@slot.ThoiGianDangKy">
+                                        <td style="background-color:#777;" colspan="@slot.ThoiGianDangKy">
                                             <span style="color:black;">
-                                                <a class="btnInfo" data-id="@slot.IDDangKy" style="cursor:pointer;">@(slot.NoiDungCuocHop.Length > 15 ? slot.NoiDungCuocHop.Substring(0, 15) : slot.NoiDungCuocHop)....</a>
+                                                <a class="btnInfo" data-id="@slot.IDDangKy">@slot.NoiDungCuocHop</a>
                                             </span>
                                         </td>
                                     }
@@ -83,9 +83,9 @@
                                 {
                                     if (slot.TinhTrang == "Đã chấp nhận")
                                     {
-                                        <td class="isAccept" style="background-color:#db3f15;" colspan="@slot.ThoiGianDangKy">
+                                        <td style="background-color:#db3f15;" colspan="@slot.ThoiGianDangKy">
                                             <span style="color:black;">
-                                                <a class="btnInfo" data-id="@slot.IDDangKy" style="cursor:pointer;">@(slot.NoiDungCuocHop.Length > 15 ? slot.NoiDungCuocHop.Substring(0, 15) : slot.NoiDungCuocHop)....</a>
+                                                <a class="btnInfo" data-id="@slot.IDDangKy">@slot.NoiDungCuocHop</a>
                                             </span>
                                         </td>
                                     }
@@ -101,7 +101,7 @@
             </tbody>
         </table>
         <div class="col-md-5 form-row">
-            <i class="fa fa-arrow-left" style="color:#1DC7EA;" aria-hidden="true"> </i>
+            <i class="fa fa-arrow-left" aria-hidden="true"> </i>
             @Html.ActionLink("Trở về trang chủ", "DangKyTheoTuan")
         </div>
         <div class="clearfix"></div>
@@ -116,7 +116,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" style="text-align:center;">Thông tin phòng họp</h4>
+                <h3 class="modal-title" style="text-align:center;">Thông tin phòng họp</h3>
             </div>
             <div class="modal-body">
                 <div id="tblData"></div>

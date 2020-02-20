@@ -1,10 +1,34 @@
 ﻿input, select, textarea {
     max-width: 100%;
 }
-.form-group {
-    margin-bottom: 10px !important;
+
+.btnInForm {
+    padding-top: 25px !important;
 }
 
-div.form-group{
-    max-height:34px !important;
+
+@media only screen and (max-width: 991px) {
+    body {
+        font-size: 14px !important;
+        white-space: normal !important;
+        word-break: normal !important;
+    }
+
+    .input-group {
+        position: relative;
+        display: inline-block !important;
+        border-collapse: separate;
+    }
+
+    .inputSelect {
+        padding-top: 5px !important;
+    }
+
+    .btnInForm {
+        padding-top: 0px !important;
+    }
+
+    .btnSelectLd {
+        padding-top: 10px !important;
+    }
 }

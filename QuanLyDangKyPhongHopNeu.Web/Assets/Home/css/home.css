@@ -40,8 +40,15 @@ body {
 
 a {
     color: black;
-    font-size:15px !important;
+    font-size: 15px !important;
+    font-weight:bold;
 }
+
+    a:hover, a:focus {
+        color: #23527c;
+        text-decoration: none;
+        cursor: pointer;
+    }
 
 .navbar {
     min-height: 110px !important;
@@ -106,9 +113,10 @@ a {
         display: inline-block !important;
         border-collapse: separate;
     }
-    table.weekly tbody tr td.roomDK {
-        padding: 5px;
+    .inputSelect{
+        padding-top:5px!important;
     }
+
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
@@ -119,8 +127,19 @@ a {
     .app {
         display: none;
     }
-    table.weekly tbody tr td.roomDK {
-        padding: 5px;
+    body {
+        font-size: 10px !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
+
+    .input-group {
+        position: relative;
+        display: inline-block !important;
+        border-collapse: separate;
+    }
+    .inputSelect {
+        padding-top: 5px !important;
     }
 }
 
@@ -158,19 +177,21 @@ table.weekly tbody tr td a.blockLink2 {
 table.weekly tbody tr {
     max-height: 130px !important;
     height: 80px !important;
+    vertical-align: middle;
 }
 
     table.weekly tbody tr td.roomDK {
-        font-weight: normal;
+        font-weight: bold;
         color: #ffffff;
         background-color: #2d53d4;
-        padding-top: 30px !important;
+        vertical-align: middle;
         text-align: center;
     }
 
     table.weekly tbody tr td {
         border: 2px solid white;
         background: #f0f0f0;
+        vertical-align: middle;
     }
 
 table.weekly {
@@ -203,3 +224,64 @@ table.tableInfo tr td {
 
 
 
+
+/*daily Css*/
+
+
+
+
+table.daily th {
+    font-weight: normal;
+    color: #ffffff;
+    background-color: #2d53d4;
+    border: 2px solid #e7ebee;
+    vertical-align: middle;
+    text-align: center;
+    height: 25px;
+}
+
+table.daily tbody tr td a.blockLink {
+    font-weight: normal;
+    color: #f0f0f0;
+    background-color: #f0f0f0;
+    background: #f0f0f0;
+    text-align: center;
+    display: block;
+    height: 50px !important;
+    vertical-align: middle;
+}
+
+table.daily tbody tr td a.blockLink2 {
+    font-weight: normal;
+    color: #f0f0f0;
+    background-color: #f0f0f0;
+    background: #f0f0f0;
+    text-align: center;
+    display: block;
+    height: 30px !important;
+}
+
+table.daily tbody tr {
+    max-height: 130px !important;
+    height: 50px !important;
+}
+
+    table.daily tbody tr td.roomDkDaily {
+        font-weight: normal;
+        color: #ffffff;
+        background-color: #2d53d4;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    table.daily tbody tr td {
+        border: 2px solid white;
+        background: #f0f0f0;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+table.daily {
+    clear: both;
+    width: 100%;
+}

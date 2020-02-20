@@ -1,5 +1,5 @@
-﻿var arrayLanhDao = [];
-var dangKyController = {
+﻿var dangKyController = {
+    arrayLanhDao: [],
     init: function () {
         dangKyController.registerEvents();
         dangKyController.loadData();
@@ -12,34 +12,36 @@ var dangKyController = {
         });
         $('#btnChonLanhDao').off('click').on('click', function (e) {
             e.preventDefault();
-            var existedItem = $('#ThanhPhan').val();
-            arrayLanhDao = [];
-            if (existedItem.includes(',')) {
-                arrayLanhDao = existedItem.split(',');
+            if ($('#ThanhPhan').val().includes($('#ddlLanhDao').val())) {
+                alert($('#ddlLanhDao').val() + ' đã được thêm');
+                return;
             } else {
-                arrayLanhDao.push(existedItem);
-            }
-            if (!$('#ThanhPhan').val().includes($('#ddlLanhDao').val())) {
+                debugger;
+                var existedItem = $('#ThanhPhan').val().trim();
+                dangKyController.arrayLanhDao = [];
+                if (existedItem.trim().includes(',')) {
+                    dangKyController.arrayLanhDao = existedItem.split(',').map(function (item) {
+                        return item.trim();
+                    });;
+                } else {
+                    if (existedItem != "") {
+                        dangKyController.arrayLanhDao.push(existedItem);
+                    }
+                }
                 if ($('#ddlLanhDao').val() != "0") {
-                    arrayLanhDao.push(' ' + $('#ddlLanhDao').val());
+                    dangKyController.arrayLanhDao.push($('#ddlLanhDao').val());
                 }
                 else {
                     alert('Vui lòng chọn 1 lãnh đạo');
                 }
-
-            } else {
-                alert($('#ddlLanhDao').val() + ' đã được thêm');
+                $('#ThanhPhan').val(dangKyController.arrayLanhDao.join(", "));
             }
-            console.log(arrayLanhDao);
-            $('#ThanhPhan').val(arrayLanhDao);
+
         });
         $('#btnClear').off('click').on('click', function (e) {
             e.preventDefault();
-            arrayLanhDao.pop();
-            var existedItem = $('#ThanhPhan').text();
-            console.log(existedItem);
-            debugger;
-            $('#ThanhPhan').text(arrayLanhDao);
+            dangKyController.arrayLanhDao.pop();
+            $('#ThanhPhan').val(dangKyController.arrayLanhDao.join(", "));
         });
 
         $('#btnChuTri').off('click').on('click', function (e) {
@@ -73,7 +75,6 @@ var dangKyController = {
             } else {
                 alert('Vui lòng chọn người chủ trì');
             }
-
         });
 
         $('#txtNgay').datepicker({
@@ -88,7 +89,6 @@ var dangKyController = {
                 $('#NgayDangKy').val($('#txtNgay').val());
             }
         });
-
     },
     loadData: function () {
         $.ajax({
@@ -113,6 +113,5 @@ var dangKyController = {
             }
         })
     }
-
 }
 dangKyController.init();
