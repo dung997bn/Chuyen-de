@@ -16,7 +16,6 @@
                 alert($('#ddlLanhDao').val() + ' đã được thêm');
                 return;
             } else {
-                debugger;
                 var existedItem = $('#ThanhPhan').val().trim();
                 dangKyController.arrayLanhDao = [];
                 if (existedItem.trim().includes(',')) {
